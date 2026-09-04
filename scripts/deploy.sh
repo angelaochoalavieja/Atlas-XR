@@ -8,7 +8,10 @@ SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 
 BRANCH="main"
+BASE_PATH="/atlas-xr/"
+
 LOCK_DIR="/tmp/$(basename "$REPO_DIR")-deploy.lock"
+
 CRON_INTERVAL="*/5 * * * *"
 CRON_MARKER="# auto-deploy-$(basename "$REPO_DIR")"
 CRON_LOG="/var/log/$(basename "$REPO_DIR")-deploy.log"
@@ -66,6 +69,7 @@ show_status() {
     echo "Rama        : $CURRENT_BRANCH"
     echo "Local       : $LOCAL"
     echo "Remoto      : $REMOTE"
+    echo "Base path   : $BASE_PATH"
     echo "Log         : $CRON_LOG"
 }
 
@@ -126,9 +130,9 @@ deploy() {
         exit 1
     fi
 
-    log "Ejecutando build..."
+    log "Ejecutando build con base $BASE_PATH..."
 
-    if ! pnpm run build; then
+    if ! pnpm run build --base="$BASE_PATH"; then
         log "Falló pnpm run build."
         log "Restaurando commit anterior: $OLD_COMMIT"
 
@@ -171,6 +175,7 @@ Configuración:
 
   Repositorio : $REPO_DIR
   Rama        : $BRANCH
+  Base path   : $BASE_PATH
   Frecuencia  : $CRON_INTERVAL
   Log         : $CRON_LOG
 EOF
