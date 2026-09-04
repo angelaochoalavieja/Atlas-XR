@@ -27,3 +27,9 @@ npm run preview
 - **Fichas de protopatrón:** problema, solución, efecto esperado, contexto, limitaciones, validación, evidencia y referencias.
 
 Los datos de los 13 protopatrones se encuentran en `src/data/patterns.js`.
+
+## Script de despliegue
+
+Ha sido añadido una carpeta de script para automatizar el despliegue para Linux Alpine
+
+script/deploy.sh
